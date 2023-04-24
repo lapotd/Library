@@ -14,9 +14,9 @@ namespace Library.Services.Repositories
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Book?> GetBookAsync(int id)
+        public async Task<Book?> GetBookAsync(int bookId)
         {
-            return await context.BooksWithAuthorAndPublisher().FirstOrDefaultAsync(book => book.Id == id);
+            return await context.BooksWithAuthorAndPublisher().FirstOrDefaultAsync(book => book.Id == bookId);
         }
 
         public async Task<IEnumerable<Book?>> GetBooksAsync()
@@ -34,6 +34,30 @@ namespace Library.Services.Repositories
         {
             return await context.BooksWithAuthorAndPublisher()
                 .Where(book => book.Publisher != null && book.Publisher.Name == publisherName).ToListAsync();
+        }
+
+        public async Task AddBookAsync(Book book)
+        {
+           await this.context.AddAsync(book);
+        }
+
+        public async Task AddAuthorToBookAsync(int bookId, Author author)
+        {
+            var book = await GetBookAsync(bookId);
+            if(book != null)
+            {
+                book.Author = author;
+            }
+            
+        }
+
+        public async Task AddPublisherToBookAsync(int bookId, Publisher publisher)
+        {
+            var book = await GetBookAsync(bookId);
+            if (book != null)
+            {
+                book.Publisher = publisher;
+            }
         }
 
         public async Task<bool> SaveChangesAsync()

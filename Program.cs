@@ -10,6 +10,7 @@ builder.Services.AddDbContext<LibraryContext>(dbContextOptions => dbContextOptio
     builder.Configuration.GetConnectionString("databaseConnectionString")));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

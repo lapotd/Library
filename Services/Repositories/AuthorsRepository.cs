@@ -15,24 +15,35 @@ namespace Library.Services.Repositories
 
         }
 
-        public Task<bool> AddBookToAuthor(Book book, int authorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Author?> GetAuthor(int id)
+        public async Task<Author?> GetAuthorAsync(int? id)
         {
             return await this.context.AuthorsWithBooks().FirstOrDefaultAsync(author => author.Id == id);
         }
 
-        public async Task<IEnumerable<Author?>> GetAuthors()
+        public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return await this.context.AuthorsWithBooks().ToListAsync();
+            return await this.context.Authors.ToListAsync();
+        }
+
+        public async Task AddBookToAuthorAsync(Book book, int authorId)
+        {
+            var author = await GetAuthorAsync(authorId);
+            if (author != null)
+            {
+                author.Books?.Add(book);
+            }
         }
 
         public async Task<bool> SaveChangesAsync()
         {
             return await this.context.SaveChangesAsync() >= 0;
         }
+
+        public async Task AddAuthorAsync(Author author)
+        {
+            await this.context.AddAsync(author);
+        }
+
+
     }
 }

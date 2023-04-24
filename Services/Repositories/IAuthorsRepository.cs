@@ -4,9 +4,10 @@ namespace Library.Services.Repositories
 {
     public interface IAuthorsRepository
     {
-        Task<Author?> GetAuthor(int id);
-        Task<IEnumerable<Author?>> GetAuthors();
-        Task<bool> AddBookToAuthor(Book book, int authorId);
+        Task<Author?> GetAuthorAsync(int? id);
+        Task<IEnumerable<Author>> GetAuthorsAsync();
+        Task AddAuthorAsync(Author author);
+        Task AddBookToAuthorAsync(Book book, int authorId);
         Task<bool> SaveChangesAsync();
     }
 }

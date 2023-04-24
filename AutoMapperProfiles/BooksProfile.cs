@@ -8,6 +8,7 @@ namespace Library.AutoMapperProfiles
     {
         public BooksProfile()
         {
+            CreateMap<BookForCreationDto, Book>();
             CreateMap<Book, BookForReturnDto>();
         }
     }
