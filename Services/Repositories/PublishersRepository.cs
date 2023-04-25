@@ -2,18 +2,16 @@
 using Library.Entities;
 using Library.Extensions;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace Library.Services.Repositories
 {
-    public class PublishersRepository: IPublishersRepository
+    public class PublishersRepository : IPublishersRepository
     {
         private readonly LibraryContext context;
 
         public PublishersRepository(LibraryContext context)
         {
             this.context = context;
-
         }
 
         public async Task<Publisher?> GetPublisherAsync(int? id)

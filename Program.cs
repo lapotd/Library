@@ -12,19 +12,20 @@ builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
 builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+    });
 
 var app = builder.Build();
-
+app.UseCors("CORS");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
