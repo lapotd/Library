@@ -2,10 +2,12 @@
 using Library.Entities;
 using Library.Models.ReturnDto;
 using Library.Services.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/books")]
     public class BooksControler : ControllerBase
