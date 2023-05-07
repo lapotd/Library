@@ -1,6 +1,6 @@
 ﻿namespace Library.Models.ReturnDto
 {
-    public class AuthorForCreationDto
+    public record AuthorForCreationDto
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -3,7 +3,7 @@ using Library.Models.Enums;
 
 namespace Library.Models.ReturnDto
 {
-    public class BookForCreationDto
+    public record BookForCreationDto
     {
         public string Title { get; set; }
         public string Description { get; set; }

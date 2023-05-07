@@ -2,7 +2,7 @@
 
 namespace Library.Models.ReturnDto
 {
-    public class BookForReturnDto
+    public record BookForReturnDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

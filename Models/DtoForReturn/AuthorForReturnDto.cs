@@ -1,6 +1,6 @@
 ﻿namespace Library.Models.ReturnDto
 {
-    public class AuthorForReturnDto
+    public record AuthorForReturnDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
