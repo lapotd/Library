@@ -5,14 +5,14 @@ namespace Library.Models.ReturnDto
 {
     public record BookForCreationDto
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
-        public int StockAmount { get; set; }
-        public DateTime PublishedDate { get; set; }
-        public Genre Genre { get; set; }
-        public int AuthorId { get; set; }
-        public int PublisherId { get; set; }
+        public string Title { get; init; }
+        public string Description { get; init; }
+        public double Price { get; init; }
+        public int StockAmount { get; init; }
+        public DateTime PublishedDate { get; init; }
+        public Genre Genre { get; init; }
+        public int AuthorId { get; init; }
+        public int PublisherId { get; init; }
 
         public BookForCreationDto(string title, string description, int authorId,
             int publisherId, DateTime publishedDate, double price, int stockAmount, Genre genre)
