@@ -21,7 +21,7 @@ namespace Library.Services.Repositories
 
         public async Task<IEnumerable<Publisher?>> GetPublishersAsync()
         {
-            return await this.context.Publishers.ToListAsync();
+            return await this.context.PublishersWithBooks().ToListAsync();
         }
 
         public async Task AddBookToPublisherAsync(Book book, int publisherId)

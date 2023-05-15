@@ -24,10 +24,10 @@ namespace Library.Controllers
         {
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(this.configuration["Authentication:Secret"]));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var tokenClaims = new List<Claim>();
-            tokenClaims.Add(new Claim("random", "claim"));
-
+            var tokenClaims = new List<Claim>
+            {
+                new Claim("random", "claim")
+            };
             var jwtToken = new JwtSecurityToken(
                 configuration["Authentication:Issuer"],
                 configuration["Authentication:Audience"],

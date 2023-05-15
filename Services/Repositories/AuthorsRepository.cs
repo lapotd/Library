@@ -22,7 +22,7 @@ namespace Library.Services.Repositories
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return await this.context.Authors.ToListAsync();
+            return await this.context.AuthorsWithBooks().ToListAsync();
         }
 
         public async Task AddBookToAuthorAsync(Book book, int authorId)
