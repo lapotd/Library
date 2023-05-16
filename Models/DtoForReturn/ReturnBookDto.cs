@@ -1,8 +1,7 @@
-﻿using Library.Models.Enums;
-
+﻿
 namespace Library.Models.ReturnDto
 {
-    public record BookForReturnDto
+    public record ReturnBookDto
     {
         public int Id { get; init; }
         public string Title { get; init; }
@@ -12,10 +11,9 @@ namespace Library.Models.ReturnDto
         public string Description { get; init; }
         public double Price { get; init; }
         public int StockAmount { get; init; }
-        public Genre Genre { get; init; }
 
-        public BookForReturnDto(int id, string title, string description, int authorId,
-            int publisherId, DateTime publishedDate, double price, int stockAmount, Genre genre)
+        public ReturnBookDto(int id, string title, string description, int authorId,
+            int publisherId, DateTime publishedDate, double price, int stockAmount)
         {
             Id = id;
             Title = title;
@@ -25,7 +23,6 @@ namespace Library.Models.ReturnDto
             PublishedDate = publishedDate;
             Price = price;
             StockAmount = stockAmount;
-            Genre = genre;
         }
     }
 }

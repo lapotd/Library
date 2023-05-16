@@ -6,8 +6,7 @@ namespace Library.Services.Repositories
     {
         Task<Publisher?> GetPublisherAsync(int? id);
         Task<IEnumerable<Publisher?>> GetPublishersAsync();
-        Task AddPublisherAsync(Publisher publisher);
-        Task AddBookToPublisherAsync(Book book, int authorId);
-        Task<bool> SaveChangesAsync();
+        Task<bool> AddPublisherAsync(Publisher publisher);
+        Task<bool> AddBookToPublisherAsync(Book book, int authorId);
     }
 }

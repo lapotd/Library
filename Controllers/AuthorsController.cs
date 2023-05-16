@@ -40,8 +40,8 @@ namespace Library.Controllers
                 return BadRequest();
             }
             var uploadedAuthor = this.mapper.Map<Author>(author);
-            await this.authorsRepository.AddAuthorAsync(uploadedAuthor);
-            if(!await this.authorsRepository.SaveChangesAsync())
+            
+            if(!await this.authorsRepository.AddAuthorAsync(uploadedAuthor))
             {
                 return BadRequest();
             }

@@ -1,8 +1,8 @@
-using Library.Contexts;
 using Library.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Persistence;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,11 +36,12 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddDbContext<LibraryContext>(dbContextOptions => dbContextOptions.UseSqlServer(
-    builder.Configuration.GetConnectionString("databaseConnectionString")));
+builder.Services.AddDbContext<DatabaseService>(dbdatabaseOptions => dbdatabaseOptions.UseSqlServer(
+    builder.Configuration.GetConnectionString("databaseConnectionString"), builder => builder.MigrationsAssembly("Library")));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
 builder.Services.AddScoped<IPublishersRepository, PublishersRepository>();
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddCors(options =>
     {

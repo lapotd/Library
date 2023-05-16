@@ -42,8 +42,7 @@ namespace Library.Controllers
                 return BadRequest();
             }
             var uploadedPublisher = this.mapper.Map<Publisher>(publisher);
-            await this.publishersRepository.AddPublisherAsync(uploadedPublisher);
-            if(!(await this.publishersRepository.SaveChangesAsync()))
+            if(!await this.publishersRepository.AddPublisherAsync(uploadedPublisher))
             {
                 return BadRequest();
             }

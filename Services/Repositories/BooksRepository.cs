@@ -1,68 +1,72 @@
-﻿using Library.Contexts;
-using Library.Entities;
+﻿using Library.Entities;
 using Library.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Library.Services.Repositories
 {
     public class BooksRepository : IBooksRepository
     {
-        private readonly LibraryContext context;
+        private readonly IDatabaseService database;
 
-        public BooksRepository(LibraryContext context)
+        public BooksRepository(IDatabaseService database)
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public async Task<Book?> GetBookAsync(int bookId)
         {
-            return await context.BooksWithAuthorAndPublisher().FirstOrDefaultAsync(book => book.Id == bookId);
+            return await database.BooksWithAuthorAndPublisher().FirstOrDefaultAsync(book => book.Id == bookId);
         }
 
         public async Task<IEnumerable<Book?>> GetBooksAsync()
         {
-            return await context.BooksWithAuthorAndPublisher().ToListAsync();
+            return await database.BooksWithAuthorAndPublisher().ToListAsync();
         }
 
         public async Task<IEnumerable<Book?>> GetBooksByAuthorAsync(string authorName)
         {
-            return await context.BooksWithAuthorAndPublisher()
+            return await database.BooksWithAuthorAndPublisher()
                 .Where(book => book.Author != null && book.Author.Name == authorName).ToListAsync();
         }
 
         public async Task<IEnumerable<Book?>> GetBooksByPublisherAsync(string publisherName)
         {
-            return await context.BooksWithAuthorAndPublisher()
+            return await database.BooksWithAuthorAndPublisher()
                 .Where(book => book.Publisher != null && book.Publisher.Name == publisherName).ToListAsync();
         }
 
-        public async Task AddBookAsync(Book book)
+        public async Task<bool> AddBookAsync(Book book)
         {
-           await this.context.AddAsync(book);
+           await this.database.AddEntityAsync(book);
+            return await this.SaveChangesAsync();
         }
 
-        public async Task AddAuthorToBookAsync(int bookId, Author author)
+        public async Task<bool> AddAuthorToBookAsync(int bookId, Author author)
         {
             var book = await GetBookAsync(bookId);
             if(book != null)
             {
                 book.Author = author;
             }
-            
+            return await SaveChangesAsync();
+
+
         }
 
-        public async Task AddPublisherToBookAsync(int bookId, Publisher publisher)
+        public async Task<bool> AddPublisherToBookAsync(int bookId, Publisher publisher)
         {
             var book = await GetBookAsync(bookId);
             if (book != null)
             {
                 book.Publisher = publisher;
             }
+            return await this.SaveChangesAsync();
         }
 
-        public async Task<bool> SaveChangesAsync()
+        private async Task<bool> SaveChangesAsync()
         {
-            return await this.context.SaveChangesAsync() >= 0;
+            return await this.database.SaveAsync();
         }
     }
 }

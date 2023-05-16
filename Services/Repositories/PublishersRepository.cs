@@ -1,46 +1,48 @@
-﻿using Library.Contexts;
-using Library.Entities;
+﻿using Library.Entities;
 using Library.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Library.Services.Repositories
 {
     public class PublishersRepository : IPublishersRepository
     {
-        private readonly LibraryContext context;
+        private readonly IDatabaseService database;
 
-        public PublishersRepository(LibraryContext context)
+        public PublishersRepository(IDatabaseService database)
         {
-            this.context = context;
+            this.database = database;
         }
 
         public async Task<Publisher?> GetPublisherAsync(int? id)
         {
-            return await this.context.PublishersWithBooks().FirstOrDefaultAsync(publisher => publisher.Id == id);
+            return await this.database.PublishersWithBooks().FirstOrDefaultAsync(publisher => publisher.Id == id);
         }
 
         public async Task<IEnumerable<Publisher?>> GetPublishersAsync()
         {
-            return await this.context.PublishersWithBooks().ToListAsync();
+            return await this.database.PublishersWithBooks().ToListAsync();
         }
 
-        public async Task AddBookToPublisherAsync(Book book, int publisherId)
+        public async Task<bool> AddBookToPublisherAsync(Book book, int publisherId)
         {
             var publisher = await GetPublisherAsync(publisherId);
             if (publisher != null)
             {
                 publisher.Books?.Add(book);
             }
+            return await this.SaveChangesAsync();
         }
 
-        public async Task AddPublisherAsync(Publisher publisher)
+        public async Task<bool> AddPublisherAsync(Publisher publisher)
         {
-            await this.context.AddAsync(publisher);
+            await this.database.AddEntityAsync(publisher);
+            return await this.SaveChangesAsync();
         }
 
-        public async Task<bool> SaveChangesAsync()
+        private async Task<bool> SaveChangesAsync()
         {
-            return await this.context.SaveChangesAsync() >= 0;
+            return await this.database.SaveAsync();
         }
     }
 }

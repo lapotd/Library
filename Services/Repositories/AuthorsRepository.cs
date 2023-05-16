@@ -1,47 +1,50 @@
-﻿using Library.Contexts;
-using Library.Entities;
+﻿using Library.Entities;
 using Library.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Library.Services.Repositories
 {
     public class AuthorsRepository : IAuthorsRepository
     {
-        private readonly LibraryContext context;
+        private readonly IDatabaseService database;
 
-        public AuthorsRepository(LibraryContext context)
+        public AuthorsRepository(IDatabaseService database)
         {
-            this.context = context;
+            this.database = database;
 
         }
 
         public async Task<Author?> GetAuthorAsync(int? id)
         {
-            return await this.context.AuthorsWithBooks().FirstOrDefaultAsync(author => author.Id == id);
+            return await this.database.AuthorsWithBooks().FirstOrDefaultAsync(author => author.Id == id);
         }
 
         public async Task<IEnumerable<Author>> GetAuthorsAsync()
         {
-            return await this.context.AuthorsWithBooks().ToListAsync();
+            return await this.database.AuthorsWithBooks().ToListAsync();
         }
 
-        public async Task AddBookToAuthorAsync(Book book, int authorId)
+        public async Task<bool> AddBookToAuthorAsync(Book book, int authorId)
         {
             var author = await GetAuthorAsync(authorId);
             if (author != null)
             {
                 author.Books?.Add(book);
             }
+            return await SaveChangesAsync();
+            
         }
 
-        public async Task<bool> SaveChangesAsync()
+        private async Task<bool> SaveChangesAsync()
         {
-            return await this.context.SaveChangesAsync() >= 0;
+            return await this.database.SaveAsync();
         }
 
-        public async Task AddAuthorAsync(Author author)
+        public async Task<bool> AddAuthorAsync(Author author)
         {
-            await this.context.AddAsync(author);
+            await this.database.AddEntityAsync(author);
+            return await SaveChangesAsync();
         }
 
 

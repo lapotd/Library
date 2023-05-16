@@ -1,24 +1,25 @@
 ﻿using Library.Entities;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Library.Extensions
 {
     static class LibraryFetchExtensions
     {
-        public static IQueryable<Book> BooksWithAuthorAndPublisher(this Contexts.LibraryContext context)
+        public static IQueryable<Book> BooksWithAuthorAndPublisher(this IDatabaseService database)
         {
-            return context.Books.Include(book => book.Author)
+            return database.Books.Include(book => book.Author)
                 .Include(book => book.Publisher);
         }
 
-        public static IQueryable<Author> AuthorsWithBooks(this Contexts.LibraryContext context)
+        public static IQueryable<Author> AuthorsWithBooks(this IDatabaseService database)
         {
-            return context.Authors.Include(author => author.Books);
+            return database.Authors.Include(author => author.Books);
         }
 
-        public static IQueryable<Publisher> PublishersWithBooks(this Contexts.LibraryContext context)
+        public static IQueryable<Publisher> PublishersWithBooks(this IDatabaseService database)
         {
-            return context.Publishers.Include(publisher => publisher.Books);
+            return database.Publishers.Include(publisher => publisher.Books);
         }
     }
 }

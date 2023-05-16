@@ -59,19 +59,15 @@ namespace Library.Controllers
             var uploadedBook = this.mapper.Map<Book>(book);
             var author = await this.authorsRepository.GetAuthorAsync(book.AuthorId);
             var publisher = await this.publishersRepository.GetPublisherAsync(book.PublisherId);
+            if (publisher == null || author == null)
+            {
+                return BadRequest();
+            }
             uploadedBook.Author = author;
             uploadedBook.Publisher = publisher;
             await this.booksRepository.AddBookAsync(uploadedBook);
-            if (publisher == null || author == null || !await this.booksRepository.SaveChangesAsync())
-            {
-                return BadRequest();
-            }
             await this.authorsRepository.AddBookToAuthorAsync(uploadedBook, uploadedBook.AuthorId);
             await this.publishersRepository.AddBookToPublisherAsync(uploadedBook, uploadedBook.PublisherId);
-            if (!(await this.publishersRepository.SaveChangesAsync() && await this.authorsRepository.SaveChangesAsync()))
-            {
-                return BadRequest();
-            }
             var returnedBook = this.mapper.Map<ReturnBookDto>(uploadedBook);
             return Ok(returnedBook);
 
