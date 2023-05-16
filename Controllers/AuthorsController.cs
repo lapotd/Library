@@ -22,9 +22,9 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AuthorForReturnDto>>> GetAuthors()
+        public async Task<ActionResult<IEnumerable<ReturnAuthorDto>>> GetAuthors()
         {
-            var authors = this.mapper.Map<IEnumerable<AuthorForReturnDto>>(await this.authorsRepository.GetAuthorsAsync());
+            var authors = this.mapper.Map<IEnumerable<ReturnAuthorDto>>(await this.authorsRepository.GetAuthorsAsync());
             if(authors == null)
             {
                 return NotFound();
@@ -33,7 +33,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AuthorForReturnDto>> PostAuthor(AuthorForCreationDto author)
+        public async Task<ActionResult<ReturnAuthorDto>> PostAuthor(CreateAuthorDto author)
         {
             if (author.Name == null || author.Description == null)
             {
@@ -45,7 +45,7 @@ namespace Library.Controllers
             {
                 return BadRequest();
             }
-            var returnedAuthor = this.mapper.Map<AuthorForReturnDto>(uploadedAuthor);
+            var returnedAuthor = this.mapper.Map<ReturnAuthorDto>(uploadedAuthor);
             return Ok(returnedAuthor);
         }
     }

@@ -8,8 +8,8 @@ namespace Library.AutoMapperProfiles
     {
         public AuthorsProfile()
         {
-            CreateMap<AuthorForCreationDto, Author>();
-            CreateMap<Author, AuthorForReturnDto>();
+            CreateMap<CreateAuthorDto, Author>();
+            CreateMap<Author, ReturnAuthorDto>();
         }
     }
 }

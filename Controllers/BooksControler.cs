@@ -28,9 +28,9 @@ namespace Library.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookForReturnDto>> GetBook(int id)
+        public async Task<ActionResult<ReturnBookDto>> GetBook(int id)
         {
-            var book = mapper.Map<BookForReturnDto>(await this.booksRepository.GetBookAsync(id));
+            var book = mapper.Map<ReturnBookDto>(await this.booksRepository.GetBookAsync(id));
             if (book == null)
             {
                 return NotFound();
@@ -39,9 +39,9 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookForReturnDto>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<ReturnBookDto>>> GetBooks()
         {
-            var books = mapper.Map<IEnumerable<BookForReturnDto>>(await this.booksRepository.GetBooksAsync());
+            var books = mapper.Map<IEnumerable<ReturnBookDto>>(await this.booksRepository.GetBooksAsync());
             if (!books.Any())
             {
                 return NotFound();
@@ -50,7 +50,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookForReturnDto>> PostBook(BookForCreationDto book)
+        public async Task<ActionResult<ReturnBookDto>> PostBook(CreateBookDto book)
         {
             if (book == null)
             {
@@ -72,7 +72,7 @@ namespace Library.Controllers
             {
                 return BadRequest();
             }
-            var returnedBook = this.mapper.Map<BookForReturnDto>(uploadedBook);
+            var returnedBook = this.mapper.Map<ReturnBookDto>(uploadedBook);
             return Ok(returnedBook);
 
         }

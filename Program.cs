@@ -34,8 +34,8 @@ builder.Services.AddSwaggerGen(options =>
             new string[]{}
         }
     });
-
 });
+
 builder.Services.AddDbContext<LibraryContext>(dbContextOptions => dbContextOptions.UseSqlServer(
     builder.Configuration.GetConnectionString("databaseConnectionString")));
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();

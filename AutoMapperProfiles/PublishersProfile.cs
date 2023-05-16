@@ -8,7 +8,7 @@ namespace Library.AutoMapperProfiles
     {
         public PublishersProfile()
         {
-            CreateMap<PublisherForCreationDto, Publisher>();
+            CreateMap<CreatePublisherRequest, Publisher>();
             CreateMap<Publisher, PublisherForReturnDto>();
         }
     }

@@ -8,8 +8,8 @@ namespace Library.AutoMapperProfiles
     {
         public BooksProfile()
         {
-            CreateMap<BookForCreationDto, Book>();
-            CreateMap<Book, BookForReturnDto>();
+            CreateMap<CreateBookDto, Book>();
+            CreateMap<Book, ReturnBookDto>();
         }
     }
 }

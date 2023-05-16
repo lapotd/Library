@@ -24,9 +24,9 @@ namespace Library.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PublisherForReturnDto>>> GetPublishers()
+        public async Task<ActionResult<IEnumerable<ReturnPublisherDto>>> GetPublishers()
         {
-            var publishers = mapper.Map<IEnumerable<PublisherForReturnDto>>(await this.publishersRepository.GetPublishersAsync());
+            var publishers = mapper.Map<IEnumerable<ReturnPublisherDto>>(await this.publishersRepository.GetPublishersAsync());
             if (!publishers.Any())
             {
                 return BadRequest();
@@ -35,7 +35,7 @@ namespace Library.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PublisherForReturnDto>> PostPublisher(PublisherForCreationDto publisher)
+        public async Task<ActionResult<ReturnPublisherDto>> PostPublisher(CreatePublisherDto publisher)
         {
             if(publisher.Name == null || publisher.Description == null)
             {
@@ -47,7 +47,7 @@ namespace Library.Controllers
             {
                 return BadRequest();
             }
-            var returnedPublisher = this.mapper.Map<PublisherForReturnDto>(uploadedPublisher);
+            var returnedPublisher = this.mapper.Map<ReturnPublisherDto>(uploadedPublisher);
             return Ok(returnedPublisher);
         }
 
