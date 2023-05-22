@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Persistence\Persistence.csproj" />
+    <ProjectReference Include="LibraryApi\Domain\Domain.csproj" />
+    <ProjectReference Include="LibraryApi\Persistence\Persistence.csproj" />
   </ItemGroup>
 
 </Project>
